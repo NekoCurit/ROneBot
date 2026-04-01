@@ -28,7 +28,7 @@ internal class _WebsocketClient(
     address: String,
     accessToken: String,
     private val listener: OneBotListener,
-    private val autoReconnect: Boolean,
+    private var autoReconnect: Boolean,
     private val botInstance: BotInstance,
     private val reconnectInterval: Long,
     private val executeDuration: Duration
@@ -75,5 +75,10 @@ internal class _WebsocketClient(
                 Thread.currentThread().interrupt()
             }
         }, reconnectInterval, TimeUnit.MILLISECONDS)
+    }
+
+    override fun close() {
+        autoReconnect = false
+        super.close()
     }
 }
